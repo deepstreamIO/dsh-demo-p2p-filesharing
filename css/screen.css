@@ -3,3 +3,65 @@
 	padding: 0;
 	list-style-type: none;
 }
+
+.wrapper{
+	width: 600px;
+	margin: 20px auto;
+}
+
+/***************************
+* FILE UPLOAD
+* *************************/
+
+
+.file-upload input[type="file"]{
+	display: none;
+}
+
+.file-upload .interactive{
+	color: #3caae0;
+	cursor: pointer;
+	border-bottom: 1px solid #3caae0;
+	padding-bottom: 1px;
+}
+
+.file-upload .interactive:hover{
+	color: #5b8ea7;
+}
+
+.file-upload .file-drop-zone{
+    border: 1px dashed #ccc;
+    min-height: 100px;
+    padding: 10px 0;
+    box-sizing: border-box;
+    margin: 20px 0;
+}
+
+.file-upload .file-drop-zone li{
+    overflow: hidden;
+    position: relative;
+    padding: 2px 10px;
+    margin: 0;
+}
+
+.file-upload .file-drop-zone li .name{
+	width: 80%;
+	float: left;
+}
+
+.file-upload .file-drop-zone li .name span{
+	color: #999;
+}
+
+.file-upload .file-drop-zone li .remove{
+	float: left;
+	line-height: 0;
+	width: 20%;
+	text-align: right;
+	cursor: pointer;
+	color: #3caae0;
+}
+
+.file-upload .file-drop-zone li .remove:hover{
+	color: #3caae0;
+}

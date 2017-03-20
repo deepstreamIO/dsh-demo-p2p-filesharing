@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>dsh metrics</title>
+
+	<!-- META -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" href="css/screen.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+	<link href="https://rawgit.com/mleibman/SlickGrid/gh-pages/slick.grid.css" rel="stylesheet" />
+
+	<!--JS For Slickgrid -->
+	<script type="text/javascript" src="https://cdn.rawgit.com/mleibman/SlickGrid/gh-pages/lib/jquery-1.7.min.js"></script>
+	<script type="text/javascript" src="https://cdn.rawgit.com/mleibman/SlickGrid/gh-pages/lib/jquery.event.drag-2.2.js"></script>
+	<script src="https://cdn.rawgit.com/mleibman/SlickGrid/gh-pages/slick.core.js"></script>
+	<script src="https://cdn.rawgit.com/mleibman/SlickGrid/gh-pages/slick.grid.js"></script>
+
+	<!-- Core build with no theme, formatting, non-essential modules -->
+	<link href="https://cdn.quilljs.com/1.2.2/quill.snow.css" rel="stylesheet">
+	<script src="https://cdn.quilljs.com/1.2.2/quill.js"></script>
+</head>
+<body>
+	<div id="app">
+		<login></login>
+		<account-details></account-details>
+		<bi-header ref="header"></bi-header>
+		<div class="widgets">
+			<div class="row">
+				<widget class="col s12 m6 l3 widget full">
+					<general-stats></general-stats>
+				</widget>
+				<widget class="col s12 m6 l6 widget full">
+					<signups></signups>
+				</widget>
+				<div class="col s12 m6 l3 widget full">
+					<widget class="half">
+						<events></events>
+					</widget>
+					<widget class="half">
+						<latestusers></latestusers>
+					</widget>
+				</div>
+			</div>
+			<div class="row">
+				<widget class="col s12 m12 l12 widget full">
+					<accounts-grid></accounts-grid>
+				</widget>
+			</div>
+		</div>
+	</div>
+
+	<!-- JS -->
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://unpkg.com/vue"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+	<script type="text/javascript" src="js/bundle.js"></script>
+</body>
+</html>

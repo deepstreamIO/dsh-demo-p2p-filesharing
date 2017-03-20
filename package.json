@@ -18,6 +18,6 @@
   },
   "homepage": "https://github.com/deepstreamIO/dsh-bi-frontend#readme",
   "dependencies": {
-    "deepstream.io-client-js": "latest",
+    "deepstream.io-client-js": "latest"
   }
 }
