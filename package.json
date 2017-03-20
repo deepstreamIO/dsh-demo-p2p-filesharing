@@ -1,0 +1,23 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "File Sharing Demo",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --progress --colors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepstreamIO/dsh-p2p-file-sharing-demo.git"
+  },
+  "author": "deepstreamHub GmbH",
+  "license": "  Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/deepstreamIO/dsh-bi-frontend/issues"
+  },
+  "homepage": "https://github.com/deepstreamIO/dsh-bi-frontend#readme",
+  "dependencies": {
+    "deepstream.io-client-js": "latest",
+  }
+}
