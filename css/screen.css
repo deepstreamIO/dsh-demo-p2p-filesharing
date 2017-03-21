@@ -2,18 +2,61 @@
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
+	color: #262626;
+	font-size: 16px;
 }
 
 .wrapper{
 	width: 600px;
 	margin: 20px auto;
+	text-align: center;
+}
+
+.wrapper h2{
+    font-size: 20px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 2px;
+    margin-bottom: 10px;
+}
+
+/***************************
+* HEADER
+* *************************/
+header{
+	text-align: center;
+}
+
+header h1{
+	font-size: 30px;
+	margin-bottom: 10px;
+}
+
+header small{
+	display: block;
+	font-size: 20px;
+}
+
+/***************************
+* ROOM NAME
+* *************************/
+.room-name{
+    border: 1px solid #cddfec;
+    background-color: #f8fcff;
+    margin-top: 10px;
+    padding: 5px 0;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+}
+
+.room-name i{
+	font-size: 16px;
+	cursor: pointer;
+	position: relative;
+	top: 3px;
 }
 
 /***************************
 * FILE UPLOAD
 * *************************/
-
-
 .file-upload input[type="file"]{
 	display: none;
 }
@@ -64,4 +107,12 @@
 
 .file-upload .file-drop-zone li .remove:hover{
 	color: #3caae0;
+}
+
+/***************************
+* USER NAME
+* *************************/
+.user-name{
+    width: 40%;
+    display: inline-block;
 }

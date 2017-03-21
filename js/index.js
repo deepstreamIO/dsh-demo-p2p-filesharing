@@ -1,3 +1,9 @@
 require( './components/file-upload' );
 require( './components/room-name' );
-var app = new Vue({ el: '#app' });
+require( './components/user-name' );
+require( './components/user-list' );
+const ds = require( './services/ds' );
+
+ds.record.whenReady(() => {
+	new Vue({ el: '#app' });
+});

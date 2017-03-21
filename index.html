@@ -2,7 +2,6 @@
 <html>
 <head>
 	<title>dsh demo</title>
-	
 	<!-- META -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -14,14 +13,22 @@
 <body>
 	<div id="app">
 		<div class="wrapper">
-			<h1>Anonymous peer to peer file transfer</h1>
-			<p>
-			This site allows you to directly share files between two browsers without uploading them to a server first.
-			</p>
-			<h2>Step 1</h2>
+			<header>
+				<img src="img/elton-trenchcoat.svg" height="240" alt="deepstream.io mascot elton in trenchcoat"/>
+				<h1>sneaky file <small>super simple peer to peer file transfer</small></h1>
+				<p>
+					this site allows you to directly share files between browsers without creating logins or uploading them to a server first.
+				</p>
+			</header>
+			<h2>step 1</h2>
+			<p>share this link with whomever you wish to share files with</p>
 			<room-name></room-name>
-			<h2>Step 2</h2>
+			<h2>step 2</h2>
 			<file-upload></file-upload>
+
+			<div class="users">
+				<p><user-list></user-list> - let them know who you are: <user-name></user-name></p>
+			</div>
 		</div>
 	</div>
 

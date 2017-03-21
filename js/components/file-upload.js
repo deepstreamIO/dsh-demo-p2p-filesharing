@@ -40,12 +40,7 @@ Vue.component( 'file-upload', {
 			e.preventDefault();
 			var currentFiles = record.get( 'files' );
 			var newFiles = this.getFiles( e.dataTransfer.files );
-			
-			if( currentFiles instanceof Array ) {
-				record.set( 'files', currentFiles.concat( newFiles ) );
-			} else {
-				record.set( 'files', newFiles );
-			}
+			record.set( 'files', currentFiles.concat( newFiles ) );
 		},
 		getFiles( fileList ) {
 			var files = [],

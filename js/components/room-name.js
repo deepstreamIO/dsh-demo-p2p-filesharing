@@ -3,8 +3,8 @@ const roomId = require( '../services/ds' ).roomId;
 Vue.component( 'room-name', {
 	template: `
 		<div class="room-name">
-			<p>Share this link with whomever you wish to share files with</p>
-			<h3>{{roomName}}</h3>
+			<span>{{roomName}}</span>
+			<i class="material-icons" title="copy to clipboard">assignment</i>
 		</div>
 	`,
 	data: function() {
