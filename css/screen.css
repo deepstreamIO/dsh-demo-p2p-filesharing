@@ -6,6 +6,16 @@
 	font-size: 16px;
 }
 
+body, html{
+	height: 100%;
+}
+
+body.loading{
+    background-image: url(../img/spinningwheel.gif);
+    background-position: center 300px;
+    background-repeat: no-repeat;
+}
+
 .wrapper{
 	width: 600px;
 	margin: 20px auto;
@@ -21,6 +31,56 @@
     margin-top: 50px;
 }
 
+.main{
+	background-color: #fff;
+	opacity: 1;
+	transition: all 1000ms ease;
+}
+
+.loading .main{
+	opacity: 0;
+}
+
+/***************************
+* INFO BOX
+* *************************/
+#dsh-info{
+	width: 260px;
+	position: fixed;
+	bottom: 0;
+	right: 40px;
+	background-color: #fff;
+	box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+#dsh-info *{
+	color: #262626;
+	font-size: 14px;
+}
+
+#dsh-info a.header{
+	display: block;
+	width: 260px;
+	height: 86px;
+	background-image: url(../img/deepstreamhub.png);
+}
+
+#dsh-info a.header h2{
+	display: none;
+}
+
+#dsh-info p{
+	margin: 20px 12px;
+}
+
+#dsh-info p a{
+	color: #3caae0;
+	cursor:pointer;
+}
+
+#dsh-info p a:hover{
+	color: #0d6894;
+}
 /***************************
 * HEADER
 * *************************/
@@ -149,6 +209,15 @@ header p{
 }
 
 .user-name{
-    width: 40%;
     display: inline-block;
+}
+
+.user-name input#username{
+    border: 1px solid #ccc;
+    font-size: 12px;
+    padding: 3px 6px;
+    line-height: 12px;
+    height: auto;
+    width: 150px;
+    margin: 0;
 }

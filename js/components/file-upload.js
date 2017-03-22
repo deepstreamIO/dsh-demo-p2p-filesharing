@@ -5,7 +5,7 @@ Vue.component( 'file-upload', {
 	template: `
 		<div class="file-upload">
 			<p>
-				Drag the files you wish to share into this box or <span class="interactive" v-on:click="showFileSelect">select them from your harddrive</span>
+				drag the files you wish to share into this box or <span class="interactive" v-on:click="showFileSelect">select them from your harddrive</span>
 			</p>
 			<ul class="file-drop-zone">
 				<li v-for="file in files">

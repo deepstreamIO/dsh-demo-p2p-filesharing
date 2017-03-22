@@ -3,7 +3,7 @@ const ds = require( '../services/ds' );
 Vue.component( 'user-name', {
 	template: `
 		<div class="user-name">
-			<input type="text" v-model="username" />
+			<input type="text" id="username" v-model="username" />
 		</div>
 	`,
 	data: function() {

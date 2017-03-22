@@ -5,5 +5,12 @@ require( './components/user-list' );
 const ds = require( './services/ds' );
 
 ds.record.whenReady(() => {
-	new Vue({ el: '#app' });
+	new Vue({
+		el: '#app',
+		mounted: function() {
+			setTimeout(function(){
+				document.body.classList.remove('loading');
+			}, 50 );
+		}
+	});
 });

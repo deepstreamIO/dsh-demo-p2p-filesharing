@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>dsh demo</title>
+	<title>sneaky file - super simple peer to peer file transfers</title>
+
 	<!-- META -->
+	<meta name="description" content="a p2p file sharing service from the browser without login using WebRTC" />
+	<meta name="tags" content="filesharing, p2p, peer to peer, deepstream, deepstreamhub, WebRTC, data-channels, file transfer" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 	<!-- CSS -->
@@ -10,7 +13,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css" />
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 </head>
-<body>
+<body class="loading">
 	<div id="app">
 		<div class="wrapper">
 			<header>
@@ -22,18 +25,28 @@
 					</p>
 				</div>
 			</header>
-			<h2>step 1</h2>
-			<p>share this link with whomever you wish to share files with</p>
-			<room-name></room-name>
-			<h2>step 2</h2>
-			<file-upload></file-upload>
-
-			<div class="users">
-				<p><user-list></user-list> - other users will see you as <user-name></user-name></p>
+			<div class="main">
+				<h2>step 1</h2>
+				<p>share this link with whomever you wish to share files with</p>
+				<room-name></room-name>
+				<h2>step 2</h2>
+				<file-upload></file-upload>
+				<div class="users">
+					<p><user-list></user-list> - other users will see you as <user-name></user-name></p>
+				</div>
 			</div>
 		</div>
 	</div>
 
+	<div id="dsh-info">
+		<a class="header" href="https://deepstreamhub.com/">
+			<h2>deepstreamHub</h2>
+		</a>
+		<p>This is an open source experiment using <a href="https://deepstreamhub.com/">deepstreamHub</a> - a new type of realtime dataplatform</p>
+		<p>
+			It uses WebRTC data channels and deepstreamHub as both a realtime datastore and signalling server. You can <a href="#" target="_blank">read a tutorial on how to do this</a> or <a href="#" target="_blank">browse the source on Github</a>.
+		</p>
+	</div>
 	<!-- JS -->
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://unpkg.com/vue"></script>
