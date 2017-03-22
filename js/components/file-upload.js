@@ -1,5 +1,6 @@
 const SIZE_SHORT_CODES = [ 'KB', 'MB', 'GB', 'TB', 'PB' ];
 const record = require( '../services/ds' ).record;
+const dataChannel = require( '../services/data-channel' );
 
 Vue.component( 'file-upload', {
 	template: `
