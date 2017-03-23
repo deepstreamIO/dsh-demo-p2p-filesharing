@@ -2,538 +2,222 @@
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
-}
-
-body{
-	background-color: #fff;
-}
-
-body .row{
-	margin-bottom: 50px;
-}
-
-nav .brand-logo{
-	background-image: url(../img/deepstreamhub-logo.png);
-    width: 20%;
-    max-width: 210px;
-    height: 100%;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    margin-left: 20px;
-}
-
-.widget-header-menu{
-    position: absolute;
-    top: -1px;
-    right: 60px;
-    user-select: none;
-}
-
-.widget-header-menu > *{
-	display: inline-block;
-}
-/*****************************
-* LOGIN
-*****************************/
-.login{
-	position: absolute;
-	background-color: #fff;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 10;
-	transition: opacity 700ms ease;
-}
-
-.login form{
-    width: 300px;
-    margin: 0 auto;
-    background-image: url(../img/deepstreamhub-logo-bright.png);
-    background-repeat: no-repeat;
-    background-position: top center;
-    padding-top: 80px;
-    background-size: contain;
-}
-
-.hidden{
-	opacity: 0;
-	pointer-events: none;
-}
-/*****************************
-* WIDGETS
-*****************************/
-
-.widgets{
-	margin-top: 20px;
-}
-
-.widget{
-	position: relative;
-}
-
-.full{
-	height: 560px;
-}
-
-.half{
-	height: 280px;
-}
-
-.widget .cover{
-	position: absolute;
-	left: 0;
-	top: 31px;
-	width: 100%;
-	height: 100%;
-	opacity: 0;
-	pointer-events: none;
-	background-color: #fff;
-	background-position: center;
-	background-repeat: no-repeat;
-	z-index: 2;
-	transition: opacity 300ms ease;
-	box-sizing: border-box;
-}
-
-.widget .loading-cover{
-	background-image: url(../img/spinningwheel.gif);
-}
-
-.widget .error-cover{
-	text-align: center;
-	padding: 60px 0;
-}
-
-.widget .error-cover i{
-	display: block;
-	margin-bottom: 10px;
-	font-size: 60px;
-}
-
-.widget .error-cover span{
-	font-weight: bold;
-}
-
-.widget.loading .loading-cover{
-	opacity: 0.7;
-}
-
-.widget.error .error-cover{
-	opacity: 0.7;
-}
-
-.widget .inner{
-	width: 98%;
-	margin: 0 1%;
-}
-
-.widget header{
-	height: 30px;
-	padding: 3px 2px;
-	position: relative;
-	border-bottom: 1px solid #ccc;
-}
-
-.widget header a{
-	position: absolute;
-	right: 3px;
-	top: 2px;
-	display: block;
-}
-
-.widget body{
-	min-height: 200px;
-	height: 540px;
-	background-color: #fff;
-}
-
-
-.widget p{
-	text-align: center;
-	padding-top: 20px;
-}
-
-.widget p em{
-	font-style: normal;
-	font-weight: bold;
-}
-
-/*****************************
-* GENERAL STATS
-*****************************/
-.general-stats .chart-container{
-	height: 200px;
-	width: 200px;
-	margin: 20px auto;
-}
-
-.general-stats canvas{
-	width: 100%;
-	height: 200px;
-}
-
-/*****************************
-* SIGNUPS
-*****************************/
-.signups .chart-container{
-	width: 90%;
-	margin: 20px auto 0;
-	height: 428px;
-}
-
-.signups ul{
-	width: 90%;
-	margin: 20px auto 0;
-	overflow: hidden;
-	position: relative;
-}
-
-.signups ul li{
-	float: left;
-	width: 20%;
-	position: relative;
-	margin-bottom: 16px;
-}
-
-.signups ul li div{
-    height: 30px;
-    width: 30px;
-    display: inline-block;
-    margin-right: 10px;
-    vertical-align: middle;
-}
-
-/*****************************
-* LATEST ACCOUNTS
-*****************************/
-.latestusers{
-	padding: 10px 0;
-    height: 260px;
-    overflow-y: scroll;
-}
-
-.latestusers li{
-	margin-bottom: 12px;
-}
-
-.latestusers li img,
-.latestusers li .image-placeholder{
-	width: 30px;
-	height: 30px;
-	display: inline-block;
-	margin-right: 10px;
-	background-color: #999;
-	vertical-align: middle;
-}
-
-.latestusers li span{
-	vertical-align: middle;
-	display: inline-block;
-}
-
-.latestusers li span small{
-	font-size: 12px;
-	color: #666;
-}
-
-.latestusers li i{
-	font-size: 30px;
-}
-
-/*****************************
-* EVENTS
-*****************************/
-.events form{
-	position: relative;
-}
-
-.events form > *{
-	display: inline-block;
-	box-sizing: border-box;
-}
-
-.events form input[type=date]{
-	width: 29%;
-}
-
-.events form input[type=text]{
-	width: 56%;
-	margin: 0 2%;
-}
-.events form button{
-	padding-left: 10px;
-	padding-right: 10px;
-}
-
-.events li{
-	position: relative;
-}
-
-.events li i{
-	position: absolute;
-	right: 0;
-	top: 0;
-	cursor: pointer;
-}
-
-.events li i:hover{
-	color: #666;
-}
-
-/*****************************
-* ACCOUNTS GRID
-*****************************/
-.accounts-grid{
-	height: 400px;
-}
-
-.accounts-grid .grid-container{
-	height: 100%;
-}
-
-.accounts-grid .slick-header-column.ui-state-default{
-	height: 24px;
-	border-right: none;
-}
-
-.accounts-grid .slick-headerrow-column{
-    border: none !important;
-    padding: 0 4px !important;
-}
-
-.accounts-grid .slick-header-sortable{
-	cursor: pointer;
-	transition: all 300ms ease;
-}
-
-.accounts-grid .slick-header-sortable:hover{
-	background-color: #eee;
-}
-
-.accounts-grid .slick-header-column-sorted{
-	color: #039be5;
-}
-
-.accounts-grid .slick-row{
-	cursor: pointer;
-}
-
-.accounts-grid .slick-row:hover,
-.accounts-grid .slick-row.even:hover{
-	background: #b1dcfb;
-}
-
-.accounts-grid .slick-row.even{
-	background-color: #fafafa;
-}
-
-.accounts-grid .slick-cell{
-	border-bottom: none;
-	border-right: none;
-	cursor: pointer;
-}
-
-.accounts-grid .slick-headerrow-columns input{
-	padding: 2px;
-    border: 1px solid #ccc;
-    margin: 0;
-    height: 18px;
-    width: 100%;
-    box-sizing: border-box;
-    font-size: 12px;
-}
-
-.accounts-grid .pagination li i{
-	color: #ccc;
-	transition: all 300ms ease;
-}
-
-.accounts-grid .pagination li i.active{
-	color: #039be5;
-	cursor: pointer;
-}
-
-.accounts-grid .pagination li i.active:hover{
-	background-color: #eee;
-}
-
-.accounts-grid .pagination li.current-page{
-	font-size: 18px;
-    padding-top: 2px;
-}
-
-.accounts-grid .slick-sort-indicator{
-	float: right;
-	font-family: 'Material Icons';
-	font-weight: normal;
-	font-style: normal;
-	font-size: 24px;
-	line-height: 1;
-	letter-spacing: normal;
-	text-transform: none;
-	display: inline-block;
-	white-space: nowrap;
-	word-wrap: normal;
-	direction: ltr;
-	-webkit-font-feature-settings: 'liga';
-	-webkit-font-smoothing: antialiased;
-	margin: 0;
-    width: 19px;
-    height: 10px;
-    margin-top: -2px;
-    background: none;
-    color: #039be5;
-}
-
-.accounts-grid .slick-sort-indicator-desc:before{
-	content: "expand_more";
-}
-
-.accounts-grid .slick-sort-indicator-asc:before{
-	content: "expand_less";
-}
-
-.widget-header-menu .totals{
-	margin-right: 20px;
-    font-size: 16px;
-    position: relative;
-    top: 3px;
-}
-
-.accounts-grid .text-filter{
-	position: relative;
-}
-
-.accounts-grid .text-filter i{
-    position: absolute;
-    right: 0;
-    font-size: 18px;
-    top: 3px;
-    color: #039be5;
-    display: none;
-    cursor: pointer;
-}
-
-.accounts-grid .bool-filter i{
-	cursor: pointer;
-	transition: all 300ms ease;
-}
-
-.accounts-grid .bool-filter i:hover{
-	background-color: #eee;
-}
-
-.accounts-grid .show-public-emails{
-	margin-right: 30px;
-	cursor: pointer;
-}
-
-.accounts-grid .show-public-emails i{
-    font-size: 16px;
-    position: relative;
-    top: 4px;
-    left: 4px;
-}
-
-/*****************************
-* ACCOUNT DETAILS
-*****************************/
-.account-details{
-	position: fixed;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba( 0, 0, 0, 0.8 );
-	pointer-events: none;
-	opacity: 0;
-	transition: all 600ms ease;
-}
-
-.account-details.visible{
-	opacity: 1;
-	z-index: 50;
-	pointer-events: all;
-}
-
-.account-details .inner{
-	background-color: #fff;
-	width: 600px;
-	margin: 30px auto;
-	box-shadow: 0 0 5px 1px rgba(0, 0, 0, 1);
-}
-
-.account-details .inner header{
-	overflow: hidden;
-	padding: 20px;
-}
-
-.account-details .inner header > *{
-	float: left;
-}
-
-.account-details .inner header img{
-	margin-right: 20px;
-}
-
-.account-details .inner header h2{
-	font-size: 20px;
-	margin: 23px 0 6px;
-}
-
-.account-details .inner header h3{
+	color: #262626;
 	font-size: 16px;
-	color: #999;
-	font-style: italic;
-	margin: 0;
 }
 
-.account-details .inner .body{
-	height: 500px;
-	overflow: auto;
-	padding: 20px;
+body, html{
+	height: 100%;
 }
 
-.account-details .inner .body h3{
-	font-size: 20px;
+body.loading{
+    background-image: url(../img/spinningwheel.gif);
+    background-position: center 300px;
+    background-repeat: no-repeat;
 }
-.account-details .inner ul.details{
+
+.wrapper{
+	width: 600px;
+	margin: 20px auto;
+	text-align: center;
+}
+
+.wrapper h2{
+    font-size: 20px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 2px;
+    margin-bottom: 10px;
+    line-height: 20px;
+    margin-top: 50px;
+}
+
+.main{
+	background-color: #fff;
+	opacity: 1;
+	transition: all 1000ms ease;
+}
+
+.loading .main{
+	opacity: 0;
+}
+
+/***************************
+* INFO BOX
+* *************************/
+#dsh-info{
+	width: 260px;
+	position: fixed;
+	bottom: 0;
+	right: 40px;
+	background-color: #fff;
+	box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+#dsh-info *{
+	color: #262626;
+	font-size: 14px;
+}
+
+#dsh-info a.header{
+	display: block;
+	width: 260px;
+	height: 86px;
+	background-image: url(../img/deepstreamhub.png);
+}
+
+#dsh-info a.header h2{
+	display: none;
+}
+
+#dsh-info p{
+	margin: 20px 12px;
+}
+
+#dsh-info p a{
+	color: #3caae0;
+	cursor:pointer;
+}
+
+#dsh-info p a:hover{
+	color: #0d6894;
+}
+/***************************
+* HEADER
+* *************************/
+header{
+	text-align: left;
 	overflow: hidden;
-	position: relative;
 }
 
-.account-details .inner ul.details li{
-	width: 33%;
+header > *{
 	float: left;
-	margin: 8px 0;
 }
 
-.account-details .inner ul.details li label{
-	display: block;
+header img{
+	margin-right: 30px;
 }
 
-.account-details .inner ul.details .contacted{
+header > div{
+	width: 380px;
+}
+
+header h1{
+    font-size: 64px;
+    margin-top: 12px;
+    margin-bottom: 10px;
+    font-weight: 100;
+}
+
+header small{
+    font-size: 22px;
+    margin-top: 3px;
+    margin-bottom: 10px;
+    font-weight: 300;
+    line-height: 20px;
+    color: #999;
+    display: block;
+}
+
+header p{
+	margin-top: 20px;
+	line-height: 30px;
+}
+
+/***************************
+* ROOM NAME
+* *************************/
+.room-name{
+    border: 1px solid #cddfec;
+    background-color: #f8fcff;
+    margin-top: 10px;
+    padding: 5px 0;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+}
+
+.room-name i{
+	font-size: 16px;
 	cursor: pointer;
+	position: relative;
+	top: 3px;
 }
 
-.account-details .inner ul.details select{
-	display: block;
-	height: auto;
+/***************************
+* FILE UPLOAD
+* *************************/
+.file-upload input[type="file"]{
+	display: none;
 }
 
-.account-details .inner .rte-container{
-	height: 300px;
+.file-upload .interactive{
+	color: #3caae0;
+	cursor: pointer;
+	border-bottom: 1px solid #3caae0;
+	padding-bottom: 1px;
 }
 
-.account-details .inner footer{
-	padding: 20px;
-	overflow: hidden;
+.file-upload .interactive:hover{
+	color: #5b8ea7;
 }
 
-.account-details .inner footer .btn i{
-    line-height: 0;
+.file-upload .file-drop-zone{
+    border: 1px dashed #ccc;
+    min-height: 100px;
+    padding: 10px 0;
+    box-sizing: border-box;
+    margin: 20px 0;
+}
+
+.file-upload .file-drop-zone li{
+    overflow: hidden;
     position: relative;
-    top: 4px;
+    padding: 2px 10px;
+    margin: 0;
+}
+
+.file-upload .file-drop-zone li .name{
+	width: 80%;
+	float: left;
+}
+
+.file-upload .file-drop-zone li .name span{
+	color: #999;
+}
+
+.file-upload .file-drop-zone li .remove{
+	float: left;
+	line-height: 0;
+	width: 20%;
+	text-align: right;
+	cursor: pointer;
+	color: #3caae0;
+}
+
+.file-upload .file-drop-zone li .remove:hover{
+	color: #3caae0;
+}
+
+/***************************
+* USER NAME
+* *************************/
+.users{
+	margin-top: 60px;
+	font-size: 12px;
+}
+
+.users *{
+	font-size: 12px;
+}
+
+.user-name{
+    display: inline-block;
+}
+
+.user-name input#username{
+    border: 1px solid #ccc;
+    font-size: 12px;
+    padding: 3px 6px;
+    line-height: 12px;
+    height: auto;
+    width: 150px;
+    margin: 0;
 }

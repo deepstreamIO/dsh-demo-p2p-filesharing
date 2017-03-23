@@ -1,58 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>dsh metrics</title>
+	<title>sneaky file - super simple peer to peer file transfers</title>
 
 	<!-- META -->
+	<meta name="description" content="a p2p file sharing service from the browser without login using WebRTC" />
+	<meta name="tags" content="filesharing, p2p, peer to peer, deepstream, deepstreamhub, WebRTC, data-channels, file transfer" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 	<!-- CSS -->
 	<link rel="stylesheet" type="text/css" href="css/screen.css" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css" />
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-	<link href="https://rawgit.com/mleibman/SlickGrid/gh-pages/slick.grid.css" rel="stylesheet" />
-
-	<!--JS For Slickgrid -->
-	<script type="text/javascript" src="https://cdn.rawgit.com/mleibman/SlickGrid/gh-pages/lib/jquery-1.7.min.js"></script>
-	<script type="text/javascript" src="https://cdn.rawgit.com/mleibman/SlickGrid/gh-pages/lib/jquery.event.drag-2.2.js"></script>
-	<script src="https://cdn.rawgit.com/mleibman/SlickGrid/gh-pages/slick.core.js"></script>
-	<script src="https://cdn.rawgit.com/mleibman/SlickGrid/gh-pages/slick.grid.js"></script>
-
-	<!-- Core build with no theme, formatting, non-essential modules -->
-	<link href="https://cdn.quilljs.com/1.2.2/quill.snow.css" rel="stylesheet">
-	<script src="https://cdn.quilljs.com/1.2.2/quill.js"></script>
 </head>
-<body>
+<body class="loading">
 	<div id="app">
-		<login></login>
-		<account-details></account-details>
-		<bi-header ref="header"></bi-header>
-		<div class="widgets">
-			<div class="row">
-				<widget class="col s12 m6 l3 widget full">
-					<general-stats></general-stats>
-				</widget>
-				<widget class="col s12 m6 l6 widget full">
-					<signups></signups>
-				</widget>
-				<div class="col s12 m6 l3 widget full">
-					<widget class="half">
-						<events></events>
-					</widget>
-					<widget class="half">
-						<latestusers></latestusers>
-					</widget>
+		<div class="wrapper">
+			<header>
+				<img src="img/elton-trenchcoat.svg" width="190" alt="deepstream.io mascot elton in trenchcoat" />
+				<div>
+					<h1>sneaky file <small>super simple peer to peer file transfers</small></h1>
+					<p>
+						this site allows you to directly share files between browsers without creating logins or uploading them to a server first.
+					</p>
 				</div>
-			</div>
-			<div class="row">
-				<widget class="col s12 m12 l12 widget full">
-					<accounts-grid></accounts-grid>
-				</widget>
+			</header>
+			<div class="main">
+				<h2>step 1</h2>
+				<p>share this link with whomever you wish to share files with</p>
+				<room-name></room-name>
+				<h2>step 2</h2>
+				<file-upload></file-upload>
+				<div class="users">
+					<p><user-list></user-list> - other users will see you as <user-name></user-name></p>
+				</div>
 			</div>
 		</div>
 	</div>
 
+	<div id="dsh-info">
+		<a class="header" href="https://deepstreamhub.com/">
+			<h2>deepstreamHub</h2>
+		</a>
+		<p>This is an open source experiment using <a href="https://deepstreamhub.com/">deepstreamHub</a> - a new type of realtime dataplatform</p>
+		<p>
+			It uses WebRTC data channels and deepstreamHub as both a realtime datastore and signalling server. You can <a href="#" target="_blank">read a tutorial on how to do this</a> or <a href="#" target="_blank">browse the source on Github</a>.
+		</p>
+	</div>
 	<!-- JS -->
+	<script src="//cdn.webrtc-experiment.com/DataChannel.js"></script>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://unpkg.com/vue"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>

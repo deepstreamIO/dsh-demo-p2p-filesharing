@@ -23,7 +23,7 @@ channel.openSignalingChannel = function(config) {
     };
 };
 
-
+channel.autoSaveToDisk = true;
 channel.onopen = function (userid) {
     console.log( 'channel open', arguments );
 };
@@ -36,6 +36,23 @@ channel.onleave = function (userid) {
      console.log( 'channel leave', arguments );
 };
 
+channel.onFileProgress = function (chunk, uuid) {
+console.log( 'onFileProgress', arguments );
+};
+
+channel.onFileStart = function (file) {
+console.log( 'onFileStart', arguments );
+};
+
+channel.onFileSent = function (file) {
+  console.log( 'onFileSent', arguments );
+};
+
+channel.onFileReceived = function (fileName, file) {
+    console.log( 'onFileReceived', arguments );
+};
+
+module.exports = channel;
 window.c = channel;
 // search for existing data channels
 // channel.connect();
