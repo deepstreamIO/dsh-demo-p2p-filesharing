@@ -1,7 +1,7 @@
 const ds = require( './ds' );
 
 var channel = new DataChannel( ds.roomId );
-
+channel.transmitRoomOnce =false;
 channel.openSignalingChannel = function(config) {
 
    ds.client.event.subscribe( 'rtc-channel-signaling/' + ds.roomId, msg => {

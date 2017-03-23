@@ -6,7 +6,7 @@ const userId = 'user/' + client.getUid();;
 const connectionData = { type: 'open', username: userId };
 const record = client.record.getRecord( 'p2p-roomId/' + roomId );
 
-client.login({ type: 'open', userId: userId, username: userId });
+client.login({ type: 'open' });
 
 if( isFirstInRoom ) {
 	exports.initialUsername = 'anonymous-user-0';
