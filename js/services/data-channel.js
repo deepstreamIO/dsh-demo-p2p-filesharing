@@ -2,18 +2,19 @@ const ds = require( './ds' );
 
 var channel = new DataChannel( ds.roomId );
 channel.transmitRoomOnce =false;
+channel.userid = ds.userId;
 channel.openSignalingChannel = function(config) {
 
    ds.client.event.subscribe( 'rtc-channel-signaling/' + ds.roomId, msg => {
    		if( msg.sender !== ds.userId ) {
-   			console.log( 'receiving', msg.data );
+   			//console.log( 'receiving', msg.data );
    			config.onmessage(msg.data);
    		}
    });
        if (config.onopen) setTimeout(config.onopen, 1000);
 	return {
         send: function (data) {
-        	console.log( 'sending', data );
+        	//console.log( 'sending', data );
         	ds.client.event.emit( 'rtc-channel-signaling/' + ds.roomId, {
         		sender: ds.userId,
         		data: data
@@ -37,19 +38,16 @@ channel.onleave = function (userid) {
 };
 
 channel.onFileProgress = function (chunk, uuid) {
-console.log( 'onFileProgress', arguments );
-};
-
-channel.onFileStart = function (file) {
-console.log( 'onFileStart', arguments );
+  console.log( 'EMITTING', 'file-progress/' + uuid)
+    ds.client.emit( 'file-progress/' + uuid, chunk );
 };
 
 channel.onFileSent = function (file) {
   console.log( 'onFileSent', arguments );
 };
 
-channel.onFileReceived = function (fileName, file) {
-    console.log( 'onFileReceived', arguments );
+channel.onFileReceived = function (file) {
+    ds.client.emit( 'file-complete/' + file.uuid );
 };
 
 module.exports = channel;

@@ -1,7 +1,7 @@
 const deepstream = require( 'deepstream.io-client-js' );
 const client = deepstream( 'wss://154.deepstreamhub.com?apiKey=a6c10d51-b4ad-4a7f-9713-273978835ce5' );
-const isFirstInRoom = !document.location.search;
-const roomId =  isFirstInRoom ? client.getUid() : document.location.search.substr( 1 );
+const isFirstInRoom = !document.location.hash;
+const roomId =  isFirstInRoom ? client.getUid() : document.location.hash.substr( 1 );
 const userId = 'user/' + client.getUid();;
 const connectionData = { type: 'open', username: userId };
 const record = client.record.getRecord( 'p2p-roomId/' + roomId );
@@ -9,6 +9,7 @@ const record = client.record.getRecord( 'p2p-roomId/' + roomId );
 client.login({ type: 'open' });
 
 if( isFirstInRoom ) {
+	document.location.hash = roomId;
 	exports.initialUsername = 'anonymous-user-0';
 	record.set({
 		files: [],
@@ -26,6 +27,4 @@ exports.roomId = roomId;
 exports.record = record;
 exports.userId = userId;
 
-client.presence.subscribe(function(){
-	console.log( 'presence', arguments );
-})
+window.record = record;
