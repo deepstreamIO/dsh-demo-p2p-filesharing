@@ -10,15 +10,8 @@ client.login({ type: 'open' });
 
 if( isFirstInRoom ) {
 	document.location.hash = roomId;
-	exports.initialUsername = 'anonymous-user-0';
 	record.set({
-		files: [],
-		users: { [userId]: exports.initialUsername }
-	});
-} else {
-	record.whenReady(() => {
-		exports.initialUsername = 'anonymous-user-' + Object.keys( record.get( 'users' ) ).length;
-		record.set( 'users.' + userId, exports.initialUsername );
+		files: []
 	});
 }
 
@@ -26,5 +19,3 @@ exports.client = client;
 exports.roomId = roomId;
 exports.record = record;
 exports.userId = userId;
-
-window.record = record;

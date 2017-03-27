@@ -24,10 +24,10 @@
 						this site allows you to directly share files between browsers without creating logins or uploading them to a server first.
 					</p>
 					<ul class="benefits">
-						<li>anonymous</li>
-						<li>fast</li>
-						<li>unlimited filesize</li>
-						<li>just bookmark this page and share your link</li>
+						<li><i class="material-icons green-text">done</i> anonymous</li>
+						<li><i class="material-icons green-text">done</i> fast-ish</li>
+						<li><i class="material-icons green-text">done</i> unlimited filesize</li>
+						<li><i class="material-icons green-text">done</i> bookmarkable</li>
 					</ul>
 				</div>
 			</header>
@@ -37,9 +37,7 @@
 				<room-name></room-name>
 				<h2>step 2</h2>
 				<file-upload></file-upload>
-				<div class="users">
-					<p><user-list></user-list> - other users will see you as <user-name></user-name></p>
-				</div>
+				<users></users>
 			</div>
 		</div>
 	</div>
@@ -54,6 +52,7 @@
 		</p>
 	</div>
 	<!-- JS -->
+	<script src="lib/zero-clipboard/ZeroClipboard.min.js"></script>
 	<script src="//cdn.webrtc-experiment.com/DataChannel.js"></script>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://unpkg.com/vue"></script>

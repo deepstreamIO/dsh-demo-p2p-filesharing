@@ -1,4 +1,3 @@
-const SIZE_SHORT_CODES = [ 'KB', 'MB', 'GB', 'TB', 'PB' ];
 const ds = require( '../services/ds' );
 const dataChannel = require( '../services/data-channel' );
 
@@ -11,7 +10,7 @@ Vue.component( 'file-upload', {
 			<ul class="file-drop-zone">
 				<file v-for="fileItem in files" :fileItem="fileItem" :key="fileItem.name"></file>
 			</ul>
-			<input type="file" multiple />
+			<input type="file" multiple v-on:change="handleFileDialog" />
 		</div>
 	`,
 	data: function() {
@@ -23,38 +22,31 @@ Vue.component( 'file-upload', {
 		var dropZone = this.$el.querySelector( '.file-drop-zone' );
 		dropZone.ondragover = this.prevent;
 		dropZone.ondragend = this.prevent;
-		dropZone.ondrop = this.handleDrop.bind( this );
+		dropZone.ondrop = this.handleFileDrop.bind( this );
 		ds.record.subscribe( 'files', this.updateFiles.bind( this ), true );
 		ds.client.rpc.provide( 'request-file-transfer/' + ds.userId, this.sendFile.bind( this ) );
-		window.onbeforeunload = this.clearMyFiles.bind( this );
 		this._fileObjects = {};
 	},
 	methods: {
 		prevent: function() {
 			return false;
 		},
-		handleDrop: function( e ) {
-			e.stopPropagation();
-			e.preventDefault();
+		handleFileDrop: function( event ) {
+			event.stopPropagation();
+			event.preventDefault();
+			this.addFileList( event.dataTransfer.files );
+		},
+		handleFileDialog( event ) {
+			this.addFileList( event.srcElement.files );
+		},
+		addFileList( fileList ) {
 			var currentFiles = ds.record.get( 'files' );
-			var newFiles = this.getFiles( e.dataTransfer.files );
-			ds.record.set( 'files', currentFiles.concat( newFiles ) );
-		},
-		sendFile( name, response ) {
-			if( this._fileObjects[ name ] ) {
-				dataChannel.send( this._fileObjects[ name ] );
-				response.send( this._fileObjects[ name ].uuid );
-			} else {
-				response.error( 'UNKNOWN FILE ' + name );
-			}
-		},
-		getFiles( fileList ) {
-			var files = [],
-				i = 0;
+			var newFiles = [];
+			var i = 0;
 
 			for( i = 0; i < fileList.length; i++ ) {
 				this._fileObjects[ fileList[ i ].name ] = fileList[ i ];
-				files.push({
+				newFiles.push({
 					name: fileList[ i ].name,
 					type: fileList[ i ].type,
 					size: fileList[ i ].size,
@@ -62,13 +54,25 @@ Vue.component( 'file-upload', {
 				});
 			}
 
-			return files;
+			ds.record.set( 'files', currentFiles.concat( newFiles ) );
 		},
+
+		sendFile( name, response ) {
+			if( this._fileObjects[ name ] ) {
+				dataChannel.send( this._fileObjects[ name ] );
+				response.send( this._fileObjects[ name ].uuid );
+				ds.client.emit( 'starting-transfer/' + name, this._fileObjects[ name ].uuid );
+			} else {
+				response.error( 'UNKNOWN FILE ' + name );
+			}
+		},
+
 		updateFiles( files ) {
 			this.$data.files = files;
 		},
-		showFileSelect( ) {
 
+		showFileSelect( ) {
+			$(this.$el).find('input[type="file"]').trigger( 'click' );
 		},
 		clearMyFiles() {
 			var files = ds.record.get( 'files' ), i, index;
@@ -84,17 +88,6 @@ Vue.component( 'file-upload', {
 				}
 			}
 			record.set( 'files', files );
-		},
-		convertFileSize( size ) {
-			if( size < 1024 ) {
-				return size + 'B';
-			}
-
-			for( var i = 2; i < SIZE_SHORT_CODES.length - 1; i++ ) {
-				if ( size < Math.pow( 1024, i ) ) {
-					return ( size / Math.pow( 1024, i - 1 ) ).toFixed( 2 ) + ' ' + SIZE_SHORT_CODES[ i - 2 ];
-				}
-			}
 		}
 	}
 });

@@ -1,24 +1,25 @@
 const ds = require( './ds' );
+const channel = new DataChannel( ds.roomId );
+const users = [ ds.userId ];
 
-var channel = new DataChannel( ds.roomId );
 channel.transmitRoomOnce =false;
 channel.userid = ds.userId;
 channel.openSignalingChannel = function(config) {
 
    ds.client.event.subscribe( 'rtc-channel-signaling/' + ds.roomId, msg => {
-   		if( msg.sender !== ds.userId ) {
-   			//console.log( 'receiving', msg.data );
-   			config.onmessage(msg.data);
-   		}
+      if( msg.sender !== ds.userId ) {
+        //console.log( 'receiving', msg.data );
+        config.onmessage(msg.data);
+      }
    });
-       if (config.onopen) setTimeout(config.onopen, 1000);
-	return {
+       if (config.onopen) setTimeout(config.onopen, 1);
+  return {
         send: function (data) {
-        	//console.log( 'sending', data );
-        	ds.client.event.emit( 'rtc-channel-signaling/' + ds.roomId, {
-        		sender: ds.userId,
-        		data: data
-        	});
+          //console.log( 'sending', data );
+          ds.client.event.emit( 'rtc-channel-signaling/' + ds.roomId, {
+            sender: ds.userId,
+            data: data
+          });
         },
         channel: ds.roomId
     };
@@ -26,7 +27,12 @@ channel.openSignalingChannel = function(config) {
 
 channel.autoSaveToDisk = true;
 channel.onopen = function (userid) {
-    console.log( 'channel open', arguments );
+  var index = users.indexOf( userid );
+  if( index === -1 ) {
+    users.push( userid );
+    ds.client.emit( 'user-add', userid );
+    ds.client.emit( 'user-change', users );
+  }
 };
 
 channel.onmessage = function (message, userid) {
@@ -34,16 +40,21 @@ channel.onmessage = function (message, userid) {
 };
 
 channel.onleave = function (userid) {
-     console.log( 'channel leave', arguments );
+  var index = users.indexOf( userid );
+  if( index > -1 ) {
+    users.splice( index, 1 );
+  }
+
+  ds.client.emit( 'user-remove', userid );
+      ds.client.emit( 'user-change', users );
 };
 
 channel.onFileProgress = function (chunk, uuid) {
-  console.log( 'EMITTING', 'file-progress/' + uuid)
     ds.client.emit( 'file-progress/' + uuid, chunk );
 };
 
 channel.onFileSent = function (file) {
-  console.log( 'onFileSent', arguments );
+  ds.client.emit( 'file-complete/' + file.uuid );
 };
 
 channel.onFileReceived = function (file) {
@@ -51,8 +62,3 @@ channel.onFileReceived = function (file) {
 };
 
 module.exports = channel;
-window.c = channel;
-// search for existing data channels
-// channel.connect();
-
-// channel.open();

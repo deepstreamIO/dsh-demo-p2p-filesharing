@@ -39,6 +39,9 @@ Vue.component( 'file', {
 		}
 	},
 	props: [ 'fileItem' ],
+	created() {
+		ds.client.on( 'starting-transfer/' + this.$props.fileItem.name, this.onOutgoingTransfer );
+	},
 	methods: {
 		requestTransfer() {
 			var origin = this.$props.fileItem.owners[ 0 ];
@@ -46,8 +49,14 @@ Vue.component( 'file', {
 			var fileName = this.$props.fileItem.name;
 			ds.client.rpc.make( rpcName, fileName, this.onTransferId.bind( this, origin ) );
 		},
+		onOutgoingTransfer( uuid ) {
+			this.transfers.push({
+				uuid: uuid,
+				origin: 'me',
+				destination: 'TODO'
+			});
+		},
 		onTransferId( origin, error, uuid ) {
-			console.log( 'onTransferId', uuid );
 			this.transfers.push({
 				uuid: uuid,
 				origin: origin,

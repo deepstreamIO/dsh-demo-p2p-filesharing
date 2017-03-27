@@ -124,6 +124,24 @@ header p{
 	line-height: 30px;
 }
 
+header .benefits{
+	overflow: hidden;
+}
+
+
+header .benefits li{
+	width: 180px;
+	margin-right: 10px;
+	float: left;
+	margin-top: 12px;
+}
+
+header .benefits li i{
+	font-size: 18px;
+    position: relative;
+    top: 4px;
+    margin-right: 8px;
+}
 /***************************
 * ROOM NAME
 * *************************/
@@ -140,6 +158,12 @@ header p{
 	cursor: pointer;
 	position: relative;
 	top: 3px;
+	opacity: 0;
+	transition: opacity 500ms ease;
+}
+
+.room-name i:hover{
+	opacity: 0.7;
 }
 
 /***************************

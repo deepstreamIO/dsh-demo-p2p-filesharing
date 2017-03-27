@@ -3,11 +3,13 @@ const ds = require( '../services/ds' );
 Vue.component( 'file-transfer', {
 	template: `
 		<div class="transfer">
-			<i class="material-icons" title="User A">folder</i>
+			<i class="material-icons" :title="origin" v-if="origin=='me'">folder</i>
+			<i class="material-icons" :title="origin" v-else>face</i>
 			<div class="transfer-progress">
 				<div :style="{ width: progress + '%' }" class="blue"></div>
 			</div>
-			<i class="material-icons blue-text" title="User A">face</i>
+			<i class="material-icons" :title="destination" v-if="destination!='me'">folder</i>
+			<i class="material-icons" :title="destination" v-else>face</i>
 		</div>
 	`,
 	props: [ 'origin', 'destination', 'uuid' ],
