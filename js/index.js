@@ -8,6 +8,9 @@ const ds = require( './services/ds' );
 ds.record.whenReady(() => {
 	new Vue({
 		el: '#app',
+		data: {
+			currentYear: (new Date()).getFullYear()
+		},
 		mounted: function() {
 			setTimeout(function(){
 				document.body.classList.remove('loading');

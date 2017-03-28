@@ -189,7 +189,7 @@ header .benefits li i{
     min-height: 100px;
     padding: 10px 0;
     box-sizing: border-box;
-    margin: 20px 0;
+    margin: 10px 0 20px;
 }
 
 .file-upload .file-drop-zone li{
@@ -291,28 +291,27 @@ header .benefits li i{
 	left: 0;
 	top: 0;
 }
+
 /***************************
 * USER NAME
 * *************************/
 .users{
 	margin-top: 60px;
-	font-size: 12px;
+	font-size: 16px;
 }
 
 .users *{
+	font-size: 16px;
+}
+
+/***************************
+* USER NAME
+* *************************/
+.main footer{
+	margin-top: 60px;
 	font-size: 12px;
 }
 
-.user-name{
-    display: inline-block;
-}
-
-.user-name input#username{
-    border: 1px solid #ccc;
-    font-size: 12px;
-    padding: 3px 6px;
-    line-height: 12px;
-    height: auto;
-    width: 150px;
-    margin: 0;
+.main footer *{
+	font-size: inherit;
 }

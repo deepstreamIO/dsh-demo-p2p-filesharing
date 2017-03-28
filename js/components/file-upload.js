@@ -57,14 +57,18 @@ Vue.component( 'file-upload', {
 			ds.record.set( 'files', currentFiles.concat( newFiles ) );
 		},
 
-		sendFile( name, response ) {
-			if( this._fileObjects[ name ] ) {
-				dataChannel.send( this._fileObjects[ name ] );
-				response.send( this._fileObjects[ name ].uuid );
-				ds.client.emit( 'starting-transfer/' + name, this._fileObjects[ name ].uuid );
-			} else {
-				response.error( 'UNKNOWN FILE ' + name );
+		sendFile( data, response ) {
+			if( !this._fileObjects[ data.name ] ) {
+				response.error( 'UNKNOWN FILE ' + data.name );
 			}
+
+			if( !dataChannel.channels[ data.userId ] ) {
+				response.error( 'UNKNOWN USER ' + data.userId );
+			}
+
+			dataChannel.channels[ data.userId ].send( this._fileObjects[ data.name ] );
+			response.send( this._fileObjects[ data.name ].uuid );
+			ds.client.emit( 'starting-transfer/' + data.name, this._fileObjects[ data.name ].uuid );
 		},
 
 		updateFiles( files ) {
