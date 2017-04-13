@@ -24,7 +24,7 @@ const isFirstInRoom = !document.location.hash;
  *
  * @type {String}
  */
-const roomId =  isFirstInRoom ? client.getUid() : document.location.hash.substr( 1 );
+const roomId = isFirstInRoom ? client.getUid() : document.location.hash.substr( 1 );
 
 /**
  * Create a new user-id. User-ids are recreated everytime rather than kept between sessions as associated
@@ -66,3 +66,5 @@ exports.roomId = roomId;
 exports.record = record;
 exports.userId = userId;
 exports.isFirstInRoom = isFirstInRoom;
+
+window.rec = record;

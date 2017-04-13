@@ -14,6 +14,7 @@ Vue.component( 'users', {
 	},
 	methods: {
 		createUserString: function( users ) {
+			console.log( 'createUserString', users );
 			if( users.length === 1 ) {
 				this.$data.userString = 'You are alone in this room';
 			} else {

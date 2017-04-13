@@ -5,7 +5,7 @@ var processIncomingRTCMessage = null;
 
 channel.transmitRoomOnce = true;
 channel.autoSaveToDisk = true;
-channel.userid = ds.userId;
+//channel.userid = ds.userId;
 channel.roomid = ds.roomId;
 
 ds.record.subscribe( 'roomMessages', joinRoom, true );
@@ -13,7 +13,6 @@ ds.record.subscribe( 'roomMessages', joinRoom, true );
 channel.openSignalingChannel = function(config) {
 	ds.client.event.subscribe( 'rtc-channel-signaling/' + ds.roomId, msg => {
 		if( msg.sender !== ds.userId ) {
-			console.log( 'receiving', msg.data );
 			config.onmessage( msg.data );
 		}
 	});
@@ -32,10 +31,16 @@ channel.openSignalingChannel = function(config) {
 			if( data.roomToken ) {
 				if( ds.isFirstInRoom ) {
 					ds.record.set( 'roomToken', data.roomToken );
+					ds.record.set( 'broadcasters', [] );
 				}
 
-				ds.record.set( 'broadcasters.' + data.broadcaster, true );
-				return;
+				if( data.broadcaster ) {
+					var broadcasters = ds.record.get( 'broadcasters' );
+					if( broadcasters.indexOf( data.broadcaster ) === -1 ) {
+						broadcasters.push( data.broadcaster );
+					}
+					ds.record.set( 'broadcasters', broadcasters );
+				}
 			}
 
 			ds.client.event.emit( 'rtc-channel-signaling/' + ds.roomId, {
@@ -52,18 +57,17 @@ function joinRoom() {
 	var roomToken = ds.record.get( 'roomToken' );
 	var broadcasters = ds.record.get( 'broadcasters' );
 	var name;
+	
 
 	if( !roomToken || !processIncomingRTCMessage ) {
 		return;
 	}
+	console.log( 'joining room', roomToken, broadcasters );
 
-	for( name in broadcasters ) {
-		if( !broadcasters[ name ] ) {
-			continue;
-		}
+	for( var i = 0; i < broadcasters.length; i++ ) {
 		processIncomingRTCMessage({
 			roomToken: roomToken,
-			broadcaster: name
+			broadcaster: broadcasters[ i ]
 		})
 	}
 }
@@ -83,12 +87,18 @@ channel.onmessage = function (message, userid) {
 
 channel.onleave = function (userid) {
 	var index = users.indexOf( userid );
+	var broadcasters = ds.record.get( 'broadcasters' );
 
 	if( index > -1 ) {
 		users.splice( index, 1 );
 	}
 
-	ds.record.set( 'broadcasters.' + userid, false );
+	if( broadcasters.indexOf( userid ) > -1 ) {
+		broadcasters.splice( broadcasters.indexOf( userid ), 1 );
+	}
+	
+
+	ds.record.set( 'broadcasters', broadcasters );
 	ds.client.emit( 'user-remove', userid );
 	ds.client.emit( 'user-change', users );
 };
