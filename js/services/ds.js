@@ -66,5 +66,3 @@ exports.roomId = roomId;
 exports.record = record;
 exports.userId = userId;
 exports.isFirstInRoom = isFirstInRoom;
-
-window.rec = record;
