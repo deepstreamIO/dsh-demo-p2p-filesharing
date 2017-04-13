@@ -1,18 +1,16 @@
 const ds = require( './ds' );
 const channel = new DataChannel( ds.roomId );
-const users = [ ds.userId ];
 var processIncomingRTCMessage = null;
 
 channel.transmitRoomOnce = true;
 channel.autoSaveToDisk = true;
-//channel.userid = ds.userId;
 channel.roomid = ds.roomId;
 
 ds.record.subscribe( 'roomMessages', joinRoom, true );
 
 channel.openSignalingChannel = function(config) {
 	ds.client.event.subscribe( 'rtc-channel-signaling/' + ds.roomId, msg => {
-		if( msg.sender !== ds.userId ) {
+		if( msg.sender !== channel.userid ) {
 			config.onmessage( msg.data );
 		}
 	});
@@ -35,6 +33,7 @@ channel.openSignalingChannel = function(config) {
 				}
 
 				if( data.broadcaster ) {
+					channel.userid = data.broadcaster;
 					var broadcasters = ds.record.get( 'broadcasters' );
 					if( broadcasters.indexOf( data.broadcaster ) === -1 ) {
 						broadcasters.push( data.broadcaster );
@@ -44,7 +43,7 @@ channel.openSignalingChannel = function(config) {
 			}
 
 			ds.client.event.emit( 'rtc-channel-signaling/' + ds.roomId, {
-				sender: ds.userId,
+				sender: channel.userid,
 				data: data
 			});
 		},
@@ -62,8 +61,7 @@ function joinRoom() {
 	if( !roomToken || !processIncomingRTCMessage ) {
 		return;
 	}
-	console.log( 'joining room', roomToken, broadcasters );
-
+	
 	for( var i = 0; i < broadcasters.length; i++ ) {
 		processIncomingRTCMessage({
 			roomToken: roomToken,
@@ -73,12 +71,7 @@ function joinRoom() {
 }
 
 channel.onopen = function ( userid ) {
-	var index = users.indexOf( userid );
-	if( index === -1 ) {
-		users.push( userid );
-		ds.client.emit( 'user-add', userid );
-		ds.client.emit( 'user-change', users );
-	}
+
 };
 
 channel.onmessage = function (message, userid) {
@@ -86,21 +79,13 @@ channel.onmessage = function (message, userid) {
 };
 
 channel.onleave = function (userid) {
-	var index = users.indexOf( userid );
 	var broadcasters = ds.record.get( 'broadcasters' );
-
-	if( index > -1 ) {
-		users.splice( index, 1 );
-	}
 
 	if( broadcasters.indexOf( userid ) > -1 ) {
 		broadcasters.splice( broadcasters.indexOf( userid ), 1 );
 	}
 	
-
 	ds.record.set( 'broadcasters', broadcasters );
-	ds.client.emit( 'user-remove', userid );
-	ds.client.emit( 'user-change', users );
 };
 
 channel.onFileProgress = function (chunk, uuid) {

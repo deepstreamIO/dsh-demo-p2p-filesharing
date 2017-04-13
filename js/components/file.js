@@ -64,7 +64,7 @@ Vue.component( 'file', {
 			 *
 			 * @type {Boolean}
 			 */
-			isOwner: this.$props.fileItem.owners.indexOf( ds.userId ) > -1,
+			isOwner: this.$props.fileItem.owners.indexOf( dataChannel.userid ) > -1,
 
 			/**
 			 * A list of file tranfer maps that will be used to create file-transfer components
@@ -104,7 +104,7 @@ Vue.component( 'file', {
 			var fileName = this.$props.fileItem.name;
 			ds.client.rpc.make( rpcName, {
 				name: fileName,
-				destination: ds.userId
+				destination: dataChannel.userid
 			}, this.onIncomingTransfer.bind( this, origin ) );
 		},
 

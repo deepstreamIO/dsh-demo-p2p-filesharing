@@ -24,7 +24,7 @@ Vue.component( 'file-upload', {
 		dropZone.ondragend = this.prevent;
 		dropZone.ondrop = this.handleFileDrop.bind( this );
 		ds.record.subscribe( 'files', this.updateFiles.bind( this ), true );
-		ds.client.rpc.provide( 'request-file-transfer/' + ds.userId, this.sendFile.bind( this ) );
+		ds.client.rpc.provide( 'request-file-transfer/' + dataChannel.userid, this.sendFile.bind( this ) );
 		this._fileObjects = {};
 	},
 	methods: {
@@ -50,7 +50,7 @@ Vue.component( 'file-upload', {
 					name: fileList[ i ].name,
 					type: fileList[ i ].type,
 					size: fileList[ i ].size,
-					owners: [ ds.userId ]
+					owners: [ dataChannel.userid ]
 				});
 			}
 
@@ -62,11 +62,11 @@ Vue.component( 'file-upload', {
 				response.error( 'UNKNOWN FILE ' + data.name );
 			}
 
-			if( !dataChannel.channels[ data.userId ] ) {
-				response.error( 'UNKNOWN USER ' + data.userId );
+			if( !dataChannel.channels[ data.destination ] ) {
+				response.error( 'UNKNOWN USER ' + data.destination );
 			}
 
-			dataChannel.channels[ data.userId ].send( this._fileObjects[ data.name ] );
+			dataChannel.channels[ data.destination ].send( this._fileObjects[ data.name ] );
 			response.send( this._fileObjects[ data.name ].uuid );
 			ds.client.emit( 'starting-transfer/' + data.name, this._fileObjects[ data.name ].uuid );
 		},
@@ -81,7 +81,7 @@ Vue.component( 'file-upload', {
 		clearMyFiles() {
 			var files = ds.record.get( 'files' ), i, index;
 			for( i = 0; i < files.length; i++ ) {
-				index = files[ i ].owners.indexOf( ds.userId );
+				index = files[ i ].owners.indexOf( dataChannel.userid  );
 				if( index === -1 ) {
 					continue;
 				}

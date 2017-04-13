@@ -27,15 +27,6 @@ const isFirstInRoom = !document.location.hash;
 const roomId = isFirstInRoom ? client.getUid() : document.location.hash.substr( 1 );
 
 /**
- * Create a new user-id. User-ids are recreated everytime rather than kept between sessions as associated
- * files also only live in the browser's memory for the duration of the session and need to be re-added
- * after the page has been refreshed
- *
- * @type {String}
- */
-const userId = 'user/' + client.getUid();;
-
-/**
  * We store all information related to this room in a single global record identified by the room-id
  *
  * @type {Deepstream.Record}
@@ -64,7 +55,6 @@ if( isFirstInRoom ) {
 exports.client = client;
 exports.roomId = roomId;
 exports.record = record;
-exports.userId = userId;
 exports.isFirstInRoom = isFirstInRoom;
 
 window.rec = record;
