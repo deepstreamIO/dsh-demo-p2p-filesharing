@@ -1,5 +1,6 @@
 const ds = require( './ds' );
 const channel = new DataChannel( ds.roomId );
+const utils = require( '../utils/utils' );
 var processIncomingRTCMessage = null;
 
 channel.transmitRoomOnce = true;
@@ -94,10 +95,13 @@ channel.onFileProgress = function (chunk, uuid) {
 
 channel.onFileSent = function (file) {
 	ds.client.emit( 'file-complete/' + file.uuid );
+	ds.client.emit( 'file-sent/' + file.uuid );
 };
 
-channel.onFileReceived = function (file) {
+channel.onFileReceived = function ( file ) {
 	ds.client.emit( 'file-complete/' + file.uuid );
+	ds.client.emit( 'file-received/' + file.uuid );
+	utils.addToArray( ds.record, `files.${utils.toJsonPath( file.name )}.owners`, channel.userid );
 };
 
 module.exports = channel;

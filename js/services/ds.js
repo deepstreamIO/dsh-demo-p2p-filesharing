@@ -46,7 +46,7 @@ client.login();
 if( isFirstInRoom ) {
 	document.location.hash = roomId;
 	record.set({
-		files: [],
+		files: {},
 		roomToken: null,
 		broadcasters: {}
 	});

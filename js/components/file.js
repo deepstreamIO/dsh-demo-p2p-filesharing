@@ -1,7 +1,8 @@
-const SIZE_SHORT_CODES = [ 'B', 'KB', 'MB', 'GB', 'TB', 'PB' ];
+
 const record = require( '../services/ds' ).record;
 const dataChannel = require( '../services/data-channel' );
 const ds = require( '../services/ds' );
+const utils = require( '../utils/utils' );
 
 /**
  * This component represents a single file that can be owned by multiple
@@ -89,6 +90,7 @@ Vue.component( 'file', {
 	 */
 	created() {
 		ds.client.on( 'starting-transfer/' + this.$props.fileItem.name, this.onOutgoingTransfer );
+		ds.record.subscribe( `files.${utils.toJsonPath( this.$props.fileItem.name )}.owners`, this.updateOwners.bind( this ))
 	},
 	methods: {
 
@@ -99,7 +101,7 @@ Vue.component( 'file', {
 		 * @returns {void}
 		 */
 		requestTransfer() {
-			var origin = this.$props.fileItem.owners[ 0 ];
+			var origin = this.$props.fileItem.owners[ Math.floor( Math.random() * this.$props.fileItem.owners.length ) ];
 			var rpcName = 'request-file-transfer/' + origin;
 			var fileName = this.$props.fileItem.name;
 			ds.client.rpc.make( rpcName, {
@@ -140,23 +142,10 @@ Vue.component( 'file', {
 			});
 		},
 
-		/**
-		 * Converts file sizes in byte to a human readable format, e.g. "2.34 MB"
-		 *
-		 * @param   {Number} size the file size in bytes
-		 *
-		 * @returns {String} human readable filesize
-		 */
-		convertFileSize( size ) {
-			if( size < 1024 ) {
-				return size + SIZE_SHORT_CODES[ 0 ];
-			}
+		updateOwners( owners ) {
+			this.$data.ownerCount = owners.length;
+		},
 
-			for( var i = 2; i < SIZE_SHORT_CODES.length - 1; i++ ) {
-				if ( size < Math.pow( 1024, i ) ) {
-					return ( size / Math.pow( 1024, i - 1 ) ).toFixed( 2 ) + ' ' + SIZE_SHORT_CODES[ i - 2 ];
-				}
-			}
-		}
+		convertFileSize: utils.convertFileSize
 	}
 });

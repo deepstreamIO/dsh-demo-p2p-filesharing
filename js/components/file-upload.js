@@ -1,5 +1,6 @@
 const ds = require( '../services/ds' );
 const dataChannel = require( '../services/data-channel' );
+const utils = require( '../utils/utils' );
 
 Vue.component( 'file-upload', {
 	template: `
@@ -15,7 +16,7 @@ Vue.component( 'file-upload', {
 	`,
 	data: function() {
 		return {
-			files: []
+			files: {}
 		}
 	},
 	mounted: function() {
@@ -39,22 +40,17 @@ Vue.component( 'file-upload', {
 		handleFileDialog( event ) {
 			this.addFileList( event.srcElement.files );
 		},
-		addFileList( fileList ) {
-			var currentFiles = ds.record.get( 'files' );
-			var newFiles = [];
-			var i = 0;
 
-			for( i = 0; i < fileList.length; i++ ) {
+		addFileList( fileList ) {
+			for( var i = 0; i < fileList.length; i++ ) {
 				this._fileObjects[ fileList[ i ].name ] = fileList[ i ];
-				newFiles.push({
+				ds.record.set( 'files.' + utils.toJsonPath( fileList[ i ].name ), {
 					name: fileList[ i ].name,
 					type: fileList[ i ].type,
 					size: fileList[ i ].size,
 					owners: [ dataChannel.userid ]
 				});
 			}
-
-			ds.record.set( 'files', currentFiles.concat( newFiles ) );
 		},
 
 		sendFile( data, response ) {
@@ -77,21 +73,6 @@ Vue.component( 'file-upload', {
 
 		showFileSelect( ) {
 			$(this.$el).find('input[type="file"]').trigger( 'click' );
-		},
-		clearMyFiles() {
-			var files = ds.record.get( 'files' ), i, index;
-			for( i = 0; i < files.length; i++ ) {
-				index = files[ i ].owners.indexOf( dataChannel.userid  );
-				if( index === -1 ) {
-					continue;
-				}
-				files[ i ].owners.splice( index, 1 );
-
-				if( files[ i ].owners.lenth === 0 ) {
-					files.splice( i, 1 );
-				}
-			}
-			record.set( 'files', files );
 		}
 	}
 });
