@@ -1,6 +1,6 @@
 const Peer = require( 'simple-peer' );
 const ds = require( '../services/ds' );
-window.ds = ds;
+
 module.exports = class Connection{
 	constructor( remoteUserId ) {
 		this._remoteUserId = remoteUserId;
@@ -41,6 +41,6 @@ module.exports = class Connection{
 	}
 
 	_onClose() {
-		console.log( 'connection closed' );
+		ds.client.emit( 'disconnect', this._remoteUserId );
 	}
 }

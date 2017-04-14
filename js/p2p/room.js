@@ -6,10 +6,23 @@ module.exports = class Room{
 		this._connections = {};
 		ds.record.subscribe( 'users', this._createConnections.bind( this ), true );
 		ds.client.event.subscribe( 'rtc-signal/' + ds.roomId + '/' + ds.userId, this._onIncomingSignal.bind( this ) );
+		ds.client.on( 'disconnect', this._removeConnection.bind( this ) );
 	}
 
 	addConnection( remoteUserId ) {
 		this._connections[ remoteUserId ] = new Connection( remoteUserId );
+	}
+
+	_removeConnection( remoteUserId ) {
+		delete this._connections[ remoteUserId ];
+		var users = ds.record.get( 'users' );
+		var index = users.indexOf( remoteUserId );
+
+		if( index > -1 ) {
+			users.splice( index, 1 );
+		}
+
+		ds.record.set( 'users', users );
 	}
 
 	_onIncomingSignal( message ) {
