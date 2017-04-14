@@ -2,6 +2,7 @@ const ds = require( './ds' );
 const channel = new DataChannel( ds.roomId );
 const utils = require( '../utils/utils' );
 var processIncomingRTCMessage = null;
+var openChannels = {};
 
 channel.transmitRoomOnce = true;
 channel.autoSaveToDisk = true;
@@ -26,7 +27,6 @@ channel.openSignalingChannel = function(config) {
 	return {
 		send: function (data) {
 			console.log( 'sending', data );
-
 			if( data.roomToken ) {
 				if( ds.isFirstInRoom ) {
 					ds.record.set( 'roomToken', data.roomToken );
@@ -52,27 +52,35 @@ channel.openSignalingChannel = function(config) {
 	};
 };
 
-
+channel.ondatachannel = function( dc ) {
+	console.log( 'ondatachannel', dc );
+}
 function joinRoom() {
 	var roomToken = ds.record.get( 'roomToken' );
 	var broadcasters = ds.record.get( 'broadcasters' );
 	var name;
-	
 
 	if( !roomToken || !processIncomingRTCMessage ) {
 		return;
 	}
-	
+
 	for( var i = 0; i < broadcasters.length; i++ ) {
+		if( openChannels[ broadcasters[ i ] ] ) {
+			continue;
+		}
+		console.log( `establishing connection for ${roomToken} with ${broadcasters[ i ]}` );
 		processIncomingRTCMessage({
 			roomToken: roomToken,
 			broadcaster: broadcasters[ i ]
 		})
+		return;
 	}
 }
 
 channel.onopen = function ( userid ) {
-
+	openChannels[ userid.toString() ] = true;
+	joinRoom();
+	console.log( 'channel opened', userid );
 };
 
 channel.onmessage = function (message, userid) {
@@ -80,12 +88,14 @@ channel.onmessage = function (message, userid) {
 };
 
 channel.onleave = function (userid) {
+	delete openChannels[ userid.toString() ];
+
 	var broadcasters = ds.record.get( 'broadcasters' );
 
 	if( broadcasters.indexOf( userid ) > -1 ) {
 		broadcasters.splice( broadcasters.indexOf( userid ), 1 );
 	}
-	
+
 	ds.record.set( 'broadcasters', broadcasters );
 };
 
@@ -105,3 +115,4 @@ channel.onFileReceived = function ( file ) {
 };
 
 module.exports = channel;
+window.ch = channel;

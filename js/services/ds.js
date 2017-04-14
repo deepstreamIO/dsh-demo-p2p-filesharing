@@ -26,6 +26,8 @@ const isFirstInRoom = !document.location.hash;
  */
 const roomId = isFirstInRoom ? client.getUid() : document.location.hash.substr( 1 );
 
+const userId = 'user/' + client.getUid();
+
 /**
  * We store all information related to this room in a single global record identified by the room-id
  *
@@ -47,14 +49,16 @@ if( isFirstInRoom ) {
 	document.location.hash = roomId;
 	record.set({
 		files: {},
-		roomToken: null,
-		broadcasters: {}
+		users: [ userId ]
+	});
+} else {
+	record.whenReady(() => {
+		record.set( 'users', record.get( 'users' ).concat([ userId ]) );
 	});
 }
 
 exports.client = client;
 exports.roomId = roomId;
 exports.record = record;
+exports.userId = userId;
 exports.isFirstInRoom = isFirstInRoom;
-
-window.rec = record;

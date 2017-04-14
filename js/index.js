@@ -1,20 +1,22 @@
-require( './components/file-upload' );
-require( './components/file' );
-require( './components/file-transfer' );
-require( './components/room-name' );
-require( './components/users' );
-const ds = require( './services/ds' );
+// require( './components/file-upload' );
+// require( './components/file' );
+// require( './components/file-transfer' );
+// require( './components/room-name' );
+// require( './components/users' );
+// const ds = require( './services/ds' );
 
-ds.record.whenReady(() => {
-	new Vue({
-		el: '#app',
-		data: {
-			currentYear: (new Date()).getFullYear()
-		},
-		mounted: function() {
-			setTimeout(function(){
-				document.body.classList.remove('loading');
-			}, 50 );
-		}
-	});
-});
+// ds.record.whenReady(() => {
+// 	new Vue({
+// 		el: '#app',
+// 		data: {
+// 			currentYear: (new Date()).getFullYear()
+// 		},
+// 		mounted: function() {
+// 			setTimeout(function(){
+// 				document.body.classList.remove('loading');
+// 			}, 50 );
+// 		}
+// 	});
+// });
+var Room = require( './p2p/room' );
+room = new Room();

@@ -90,7 +90,7 @@ Vue.component( 'file', {
 	 */
 	created() {
 		ds.client.on( 'starting-transfer/' + this.$props.fileItem.name, this.onOutgoingTransfer );
-		ds.record.subscribe( `files.${utils.toJsonPath( this.$props.fileItem.name )}.owners`, this.updateOwners.bind( this ))
+		ds.record.subscribe( `files.${utils.toJsonPath( this.$props.fileItem.name )}.owners`, this.updateOwners.bind( this ), true );
 	},
 	methods: {
 

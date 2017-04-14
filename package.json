@@ -19,6 +19,7 @@
   "homepage": "https://github.com/deepstreamIO/dsh-bi-frontend#readme",
   "dependencies": {
     "datachannel": "^1.0.0",
-    "deepstream.io-client-js": "latest"
+    "deepstream.io-client-js": "latest",
+    "simple-peer": "^8.1.0"
   }
 }
