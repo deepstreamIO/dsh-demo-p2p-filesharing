@@ -20,7 +20,7 @@ exports.convertFileSize = function( size ) {
 };
 
 exports.toJsonPath = function( fileName ) {
-	return fileName.replace( /[\.\[\]]/g, '_' );
+	return fileName.replace( /[\.\[\]\ ]/g, '_' );
 };
 
 exports.removeFromArray = function( record, path, item ) {
@@ -39,3 +39,24 @@ exports.addToArray = function( record, path, item ) {
 	arr.push( item );
 	record.set( path, arr );
 }
+
+exports.setIntInByteArray = function( val, byteArray, startIndex ) {
+    var index, byte;
+
+    for ( index = 0; index < 4; index ++ ) {
+        byte = val & 0xff;
+        byteArray[ index + startIndex ] = byte;
+        val = (val - byte) / 256 ;
+    }
+
+    return byteArray;
+};
+
+exports.getIntFromByteArray = function( byteArray, startIndex ) {
+    var value = 0, i;
+    for ( i = startIndex + 3; i >= startIndex; i--) {
+        value = (value * 256) + byteArray[i];
+    }
+
+    return value;
+};

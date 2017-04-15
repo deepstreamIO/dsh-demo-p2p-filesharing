@@ -1,8 +1,7 @@
-
 const record = require( '../services/ds' ).record;
-const dataChannel = require( '../services/data-channel' );
 const ds = require( '../services/ds' );
 const utils = require( '../utils/utils' );
+const room = require( '../p2p/room' );
 
 /**
  * This component represents a single file that can be owned by multiple
@@ -65,7 +64,7 @@ Vue.component( 'file', {
 			 *
 			 * @type {Boolean}
 			 */
-			isOwner: this.$props.fileItem.owners.indexOf( dataChannel.userid ) > -1,
+			isOwner: this.$props.fileItem.owners.indexOf( ds.userId ) > -1,
 
 			/**
 			 * A list of file tranfer maps that will be used to create file-transfer components
@@ -106,7 +105,7 @@ Vue.component( 'file', {
 			var fileName = this.$props.fileItem.name;
 			ds.client.rpc.make( rpcName, {
 				name: fileName,
-				destination: dataChannel.userid
+				destination: ds.userId
 			}, this.onIncomingTransfer.bind( this, origin ) );
 		},
 
@@ -135,6 +134,7 @@ Vue.component( 'file', {
 		 * @returns {void}
 		 */
 		onIncomingTransfer( origin, error, uuid ) {
+			room.addNameToTransfer( uuid, this.$props.fileItem.name );
 			this.transfers.push({
 				uuid: uuid,
 				origin: origin,
@@ -143,7 +143,7 @@ Vue.component( 'file', {
 		},
 
 		updateOwners( owners ) {
-			this.$data.ownerCount = owners.length;
+			this.$data.ownerCount = owners ? owners.length : 0;
 		},
 
 		convertFileSize: utils.convertFileSize

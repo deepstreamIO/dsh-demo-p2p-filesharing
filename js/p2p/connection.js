@@ -2,14 +2,17 @@ const Peer = require( 'simple-peer' );
 const ds = require( '../services/ds' );
 
 module.exports = class Connection{
-	constructor( remoteUserId ) {
+	constructor( room, remoteUserId ) {
+		this._room = room;
 		this._remoteUserId = remoteUserId;
 		this._connection = new Peer({ initiator: ds.userId > remoteUserId, trickle: false });
 		this._connection.on( 'error', this._onError.bind( this ) );
 		this._connection.on( 'signal', this._onOutgoingSignal.bind( this ) );
 		this._connection.on( 'connect', this._onConnect.bind( this ) );
-		this._connection.on( 'data', this._onData.bind( this ) );
 		this._connection.on( 'close', this._onClose.bind( this ) );
+
+		//Hack instead of using the official 'data' event - lets us handle the array buffer directly
+		this._connection._onChannelMessage = this._onData.bind( this );
 	}
 
 	send( data ) {
@@ -25,7 +28,7 @@ module.exports = class Connection{
 	}
 
 	_onOutgoingSignal( signal ) {
-		console.log( 'sending signal', signal );
+		signal.sdp = signal.sdp.replace( 'b=AS:30', 'b=AS:1638400' );
 		ds.client.event.emit( 'rtc-signal/' + ds.roomId + '/' + this._remoteUserId, {
 			sender: ds.userId,
 			signal: signal
@@ -36,8 +39,8 @@ module.exports = class Connection{
 		console.log( 'connected' );
 	}
 
-	_onData( data ) {
-		console.log( 'received', data );
+	_onData( event ) {
+		this._room.processIncomingData( event.data );
 	}
 
 	_onClose() {

@@ -1,5 +1,5 @@
 const ds = require( '../services/ds' );
-const dataChannel = require( '../services/data-channel' );
+const room = require( '../p2p/room' );
 const utils = require( '../utils/utils' );
 
 Vue.component( 'file-upload', {
@@ -25,7 +25,7 @@ Vue.component( 'file-upload', {
 		dropZone.ondragend = this.prevent;
 		dropZone.ondrop = this.handleFileDrop.bind( this );
 		ds.record.subscribe( 'files', this.updateFiles.bind( this ), true );
-		ds.client.rpc.provide( 'request-file-transfer/' + dataChannel.userid, this.sendFile.bind( this ) );
+		ds.client.rpc.provide( 'request-file-transfer/' + ds.userId, this.sendFile.bind( this ) );
 		this._fileObjects = {};
 	},
 	methods: {
@@ -48,7 +48,7 @@ Vue.component( 'file-upload', {
 					name: fileList[ i ].name,
 					type: fileList[ i ].type,
 					size: fileList[ i ].size,
-					owners: [ dataChannel.userid ]
+					owners: [ ds.userId ]
 				});
 			}
 		},
@@ -58,16 +58,17 @@ Vue.component( 'file-upload', {
 				response.error( 'UNKNOWN FILE ' + data.name );
 			}
 
-			if( !dataChannel.channels[ data.destination ] ) {
+			if( !room.hasConnection( data.destination ) ) {
 				response.error( 'UNKNOWN USER ' + data.destination );
 			}
+			var transferId = Math.floor( Math.random() * 4228250625 );
+			room.sendFile( this._fileObjects[ data.name ], data.destination, transferId );
 
-			dataChannel.channels[ data.destination ].send( this._fileObjects[ data.name ] );
-			response.send( this._fileObjects[ data.name ].uuid );
+			response.send( transferId );
 			ds.client.emit( 'starting-transfer/' + data.name, this._fileObjects[ data.name ].uuid );
 		},
 
-		updateFiles( files ) {
+		updateFiles( files ) {console.log( 'update files',files );
 			this.$data.files = files;
 		},
 
