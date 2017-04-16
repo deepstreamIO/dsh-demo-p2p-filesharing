@@ -1,10 +1,11 @@
 const BYTES_PER_CHUNK = 1200;
 const utils = require( '../utils/utils' );
-
+const ds = require( '../services/ds' );
 
 module.exports = class IncomingFileTransfer{
-	constructor( size ) {
+	constructor( size, transferId ) {
 		this._size = size;
+		this._transferId = transferId;
 		this._receivedLength = 0;
 		this._data = [];
 		this._indices = [];
@@ -14,34 +15,32 @@ module.exports = class IncomingFileTransfer{
 		this._data.push( chunk );
 		this._receivedLength += chunk.byteLength;
 		this._indices.push( index );
+		ds.client.emit( 'file-progress/' + this._transferId, this._receivedLength / this._size );
 	}
 
 	setName( filename ) {
 		this._filename = filename;
 	}
 
-	validate() {
-		var received = new window.Blob(this._data);
-		var anchor = document.createElement( 'a' );
-		anchor.href = URL.createObjectURL(received);
-		anchor.download = this._filename;
-		anchor.textContent = 'XXXXXXX';
-		document.body.appendChild( anchor );
+	downloadFile() {
+		utils.downloadFile( this._data, this._filename );
+	}
 
-		if( this._indices.length === Math.ceil( this._size / BYTES_PER_CHUNK ) ) {
-			console.log( 'All chunks received' );
+	validate() {
+		if( this._indices.length !== Math.ceil( this._size / BYTES_PER_CHUNK ) ) {
+			return 'Missing chunks';
 		}
 
 		for( var i = 0; i < this._indices.length; i++ ) {
 			if( i !== this._indices[ i ] ) {
-				console.log( 'chunk out of order', i, this._indices );
-				return;
+				return 'chunks out of order';
 			}
 		}
-		console.log( 'All chunks in order' );
 
 		if( this._size !== this._receivedLength ) {
-			console.log( 'expected size was ' + this._size + ' but only received ' + this._receivedLength );
+			return 'expected size was ' + this._size + ' but only received ' + this._receivedLength;
 		}
+
+		return true;
 	}
 }

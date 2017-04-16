@@ -19,16 +19,16 @@ Vue.component( 'file-transfer', {
 		}
 	},
 	created() {
-		console.log( 'SUBSCRIBING TO', 'file-progress/' + this.$props.uuid );
-		ds.client.on( 'file-progress/' + this.$props.uuid, this.updateFileProgress.bind( this ) );
+		console.log( 'SUBSCRIBING TO', 'file-progress/_' + this.$props.uuid );
+		ds.client.on( 'file-progress/_' + this.$props.uuid, this.updateFileProgress.bind( this ) );
 		ds.client.on( 'file-complete/' + this.$props.uuid, this.cleanUp.bind( this ) );
 	},
 	methods: {
 		cleanUp() {
 			console.log( 'DONE' );
 		},
-		updateFileProgress( chunk ) {
-			this.$data.progress = ( chunk.currentPosition / ( chunk.length + 1 ) ) * 100;
+		updateFileProgress( progress ) {
+			this.$data.progress = progress * 100;
 		}
 	}
 });

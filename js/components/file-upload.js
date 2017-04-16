@@ -65,7 +65,7 @@ Vue.component( 'file-upload', {
 			room.sendFile( this._fileObjects[ data.name ], data.destination, transferId );
 
 			response.send( transferId );
-			ds.client.emit( 'starting-transfer/' + data.name, this._fileObjects[ data.name ].uuid );
+			ds.client.emit( 'starting-transfer/' + data.name, transferId );
 		},
 
 		updateFiles( files ) {console.log( 'update files',files );

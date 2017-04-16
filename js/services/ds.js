@@ -26,6 +26,11 @@ const isFirstInRoom = !document.location.hash;
  */
 const roomId = isFirstInRoom ? client.getUid() : document.location.hash.substr( 1 );
 
+/**
+ * A unique identifier, specifying this user
+ *
+ * @type {String}
+ */
 const userId = 'user/' + client.getUid();
 
 /**

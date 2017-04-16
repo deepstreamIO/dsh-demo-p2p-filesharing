@@ -28,8 +28,9 @@ class Room{
 	processIncomingData( data ) {
 		if( typeof data === 'string' ) {
 			var parts = data.split( ':' );
+
 			if( parts[ 0 ] === 'TC' ) {
-				this._incomingTransfers[ '_' + parts[ 1 ] ].validate();
+				this._finaliseTransfer( parts[ 1 ] );
 			}
 		} else {
 			data = new Uint8Array( data );
@@ -38,7 +39,7 @@ class Room{
 			var chunkIndex = utils.getIntFromByteArray( data, 4 );
 
 			if( !this._incomingTransfers[ transferId ] ) {
-				this._incomingTransfers[ transferId ] = new IncomingFileTransfer( utils.getIntFromByteArray( data, 8 ) );
+				this._incomingTransfers[ transferId ] = new IncomingFileTransfer( utils.getIntFromByteArray( data, 8 ), transferId );
 			}
 
 			this._incomingTransfers[ transferId ].addChunk( chunkIndex, data.slice( 12 ).buffer );
@@ -51,6 +52,17 @@ class Room{
 
 	addNameToTransfer( transferId, filename ) {
 		this._incomingTransfers[ '_'+transferId ].setName( filename );
+	}
+
+	_finaliseTransfer( transferId ) {
+		var transfer = this._incomingTransfers[ '_' + transferId ];
+		var validationResult = transfer.validate()
+		if( validationResult === true ) {
+			transfer.downloadFile();
+		} else {
+			//TODO display to user
+			console.log( 'transfer failed', validationResult );
+		}
 	}
 
 	_removeConnection( remoteUserId ) {
