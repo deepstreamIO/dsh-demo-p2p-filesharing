@@ -11,6 +11,7 @@ class Room{
 		ds.record.subscribe( 'users', this._createConnections.bind( this ), true );
 		ds.client.event.subscribe( 'rtc-signal/' + ds.roomId + '/' + ds.userId, this._onIncomingSignal.bind( this ) );
 		ds.client.on( 'disconnect', this._removeConnection.bind( this ) );
+		setInterval( this._checkConnections.bind( this ), 6000 );
 	}
 
 	addConnection( remoteUserId ) {
@@ -59,13 +60,26 @@ class Room{
 		var validationResult = transfer.validate()
 		if( validationResult === true ) {
 			transfer.downloadFile();
+			transfer.addOwnerToFile();
 		} else {
 			//TODO display to user
 			console.log( 'transfer failed', validationResult );
 		}
 	}
 
+	_checkConnections() {
+		for( var remoteUserId in this._connections ) {
+			if( this._connections[ remoteUserId ].isConnected() === false ) {
+				this._removeConnection( remoteUserId );
+			}
+		}
+	}
+
 	_removeConnection( remoteUserId ) {
+		if( this._connections[ remoteUserId ].isConnected() ) {
+			this._connections[ remoteUserId ].destroy();
+		}
+
 		delete this._connections[ remoteUserId ];
 
 		var data = ds.record.get();
@@ -87,7 +101,7 @@ class Room{
 				delete data.files[ filename ];
 			}
 		}
-
+		console.log( 'setting', data );
 		ds.record.set( data );
 	}
 

@@ -6,9 +6,9 @@ Vue.component( 'file-transfer', {
 			<i class="material-icons" :title="origin" v-if="origin=='me'">folder</i>
 			<i class="material-icons" :title="origin" v-else>face</i>
 			<div class="transfer-progress">
-				<div :style="{ width: progress + '%' }" class="blue"></div>
+				<div :style="{ width: progress + '%' }" :class="progress >= 100 ? 'green' : 'blue'"></div>
 			</div>
-			<i class="material-icons" :title="destination" v-if="destination!='me'">folder</i>
+			<i class="material-icons" :title="destination" v-if="destination=='me'">folder</i>
 			<i class="material-icons" :title="destination" v-else>face</i>
 		</div>
 	`,
@@ -19,16 +19,18 @@ Vue.component( 'file-transfer', {
 		}
 	},
 	created() {
-		console.log( 'SUBSCRIBING TO', 'file-progress/_' + this.$props.uuid );
 		ds.client.on( 'file-progress/_' + this.$props.uuid, this.updateFileProgress.bind( this ) );
-		ds.client.on( 'file-complete/' + this.$props.uuid, this.cleanUp.bind( this ) );
 	},
 	methods: {
 		cleanUp() {
+
 			console.log( 'DONE' );
 		},
 		updateFileProgress( progress ) {
 			this.$data.progress = progress * 100;
+			if( progress >= 1 ) {
+				this.cleanUp();
+			}
 		}
 	}
 });

@@ -1,7 +1,7 @@
 const ds = require( '../services/ds' );
 const room = require( '../p2p/room' );
 const utils = require( '../utils/utils' );
-
+window.room = room;
 Vue.component( 'file-upload', {
 	template: `
 		<div class="file-upload">

@@ -31,21 +31,6 @@ exports.toJsonPath = function( fileName ) {
 };
 
 /**
- * A convenience method to add an entry to an array within a record
- *
- * @param   {ds.Record} record the record that contains the array
- * @param   {String} path a path locating the array within the record
- * @param   {Mixed} item the item to be added
- *
- * @returns {void}
- */
-exports.addToArray = function( record, path, item ) {
-	var arr = record.get( path );
-	arr.push( item );
-	record.set( path, arr );
-}
-
-/**
  * A convenience method to remove an entry from an array within a record
  *
  * @param   {ds.Record} record the record that contains the array
@@ -74,8 +59,11 @@ exports.removeFromArray = function( record, path, item ) {
  *
  * @returns {void}
  */
-exports.addToArray = function( record, path, item ) {
+exports.addToArray = function( record, path, item, unique ) {
 	var arr = record.get( path );
+	if( unique === true && arr.indexOf( item ) > -1 ) {
+		return;
+	}
 	arr.push( item );
 	record.set( path, arr );
 };

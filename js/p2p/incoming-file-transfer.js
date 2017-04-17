@@ -26,6 +26,10 @@ module.exports = class IncomingFileTransfer{
 		utils.downloadFile( this._data, this._filename );
 	}
 
+	addOwnerToFile() {
+		utils.addToArray( ds.record, 'files.' + utils.toJsonPath( this._filename ) + '.owners', ds.userId, true );
+	}
+
 	validate() {
 		if( this._indices.length !== Math.ceil( this._size / BYTES_PER_CHUNK ) ) {
 			return 'Missing chunks';

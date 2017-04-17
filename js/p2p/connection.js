@@ -1,6 +1,6 @@
 const Peer = require( 'simple-peer' );
 const ds = require( '../services/ds' );
-
+window.ds = ds;
 module.exports = class Connection{
 	constructor( room, remoteUserId ) {
 		this._room = room;
@@ -21,6 +21,10 @@ module.exports = class Connection{
 
 	processIncomingSignal( signal ) {
 		this._connection.signal( signal );
+	}
+
+	isConnected() {
+		return !!this._connection.connected;
 	}
 
 	_onError( error ) {
