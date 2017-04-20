@@ -69,14 +69,14 @@ class Room{
 
 	_checkConnections() {
 		for( var remoteUserId in this._connections ) {
-			if( this._connections[ remoteUserId ].isConnected() === false ) {
+			if( this._connections[ remoteUserId ].needsCleanup() === false ) {
 				this._removeConnection( remoteUserId );
 			}
 		}
 	}
 
 	_removeConnection( remoteUserId ) {
-		if( this._connections[ remoteUserId ].isConnected() ) {
+		if( this._connections[ remoteUserId ].needsCleanup() ) {
 			this._connections[ remoteUserId ].destroy();
 		}
 

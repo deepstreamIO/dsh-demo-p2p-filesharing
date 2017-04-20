@@ -5,6 +5,7 @@ module.exports = class Connection{
 	constructor( room, remoteUserId ) {
 		this._room = room;
 		this._remoteUserId = remoteUserId;
+		this._created = Date.now();
 		this._connection = new Peer({ initiator: ds.userId > remoteUserId, trickle: false });
 		this._connection.on( 'error', this._onError.bind( this ) );
 		this._connection.on( 'signal', this._onOutgoingSignal.bind( this ) );
@@ -23,8 +24,8 @@ module.exports = class Connection{
 		this._connection.signal( signal );
 	}
 
-	isConnected() {
-		return !!this._connection.connected;
+	needsCleanup() {
+		return !this._connection.connected && ( Date.now() - this._created ) > 6000;
 	}
 
 	_onError( error ) {

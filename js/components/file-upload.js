@@ -54,6 +54,7 @@ Vue.component( 'file-upload', {
 		},
 
 		sendFile( data, response ) {
+			console.log( 'SENDING', data );
 			if( !this._fileObjects[ data.name ] ) {
 				response.error( 'UNKNOWN FILE ' + data.name );
 			}
